@@ -13,4 +13,7 @@ function addNotice() {
     </div>
     </div>
     `;
+
+  document.getElementById("noteHeadline").value = "";
+  document.getElementById("noteText").value = "";
 }
