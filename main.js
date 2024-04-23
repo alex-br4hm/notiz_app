@@ -106,3 +106,6 @@ function editNotice(z) {
   document.documentElement.scrollTop = 0;
   renderNotices(noteHeadlineArr, noteTextArr);
 }
+
+let submitInputBtn = get.getElementById("submitInputBtn");
+submitInputBtn.addEventListener("submit", renderedNoticesBack());
