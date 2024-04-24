@@ -8,16 +8,7 @@
     <link rel="shortcut icon" href="./src/img/fav.png" type="image/x-icon" />
   </head>
   <body>
-    <div class="trash-overlay d-none" id="trashOverlay">
-      <!-- <div class="trash-card">
-        <h2>Schlafen</h2>
-        <div>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam
-          molestias nisi quae iure pariatur!
-        </div>
-        <div id="restoreBtn">restore</div>
-      </div> -->
-    </div>
+    <div class="trash-overlay d-none" id="trashOverlay"></div>
 
     <div class="main-content-container">
       <div class="header-container">
@@ -25,61 +16,26 @@
           trash
           <div class="trash-arrow" id="trashArrow"><</div>
         </div>
+
+        <div class="trashOpener trash-function-word d-none" id="trashToggleCross" onclick="toggleTrashOverlay()">
+          &#10005;
+        </div>
+
         <div class="trashPurger trash-function-word d-none" id="emptyTrashBtn" onclick="emptyTrash()">empty trash</div>
         <h1>--- notice your stuff ---</h1>
       </div>
 
-      <div class="notes-input-container">
+      <div class="notes-input-container" onclick="toggleTrashOverlayOnClick()">
         <input type="text" id="noteHeadline" placeholder="title..." autocomplete="off" />
         <textarea spellcheck="false" type="text" id="noteText" placeholder="note..." autocomplete="off"></textarea>
-        <button class="notes-input-btn" id="submitInputBtn" onclick="renderedNoticesBack()">add+</button>
-      </div>
-
-      <div class="notes-card-container" id="notesCardContainer">
-        <!-- <div class="notes-card-content">
-          <div class="note-headline-card" id="noteHeadlineCard">Schlafen</div>
-          <div class="note-text-card" id="noteTextCard">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum
-            expedita necessitatibus recusandae veritatis dolorem laudantium? Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis
-            dolorem laudantium? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur
-            officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?
-            <div class="cards-delete-btn">delete</div>
-            <div class="cards-edit-btn">edit</div>
-          </div>
+        <button class="notes-input-btn" id="submitInputBtn" onclick="emptyInputs()">add+</button>
+        <div class="error-warning d-none" id="errorWarning">
+          Enter title AND text
+          <div class="close-warning" onclick="closeErrorWarning()">OK</div>
         </div>
-        
-      <div class="notes-card-content">
-        <div class="note-headline-card">Schlafen</div>
-        <div class="note-text-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?<div class="cards-delete-btn">delete</div></div>
       </div>
 
-      <div class="notes-card-content">
-        <div class="note-headline-card">Schlafen</div>
-        <div class="note-text-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?<div class="cards-delete-btn">delete</div></div>
-      </div>
-
-      <div class="notes-card-content">
-        <div class="note-headline-card">Schlafen</div>
-        <div class="note-text-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?<div class="cards-delete-btn">delete</div></div>
-      </div>
-
-      <div class="notes-card-content">
-        <div class="note-headline-card">Schlafen</div>
-        <div class="note-text-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?</div>
-        <div class="cards-delete-btn">delete</div>
-      </div>
-
-      <div class="notes-card-content">
-        <div class="note-headline-card">Schlafen</div>
-        <div class="note-text-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?<div class="cards-delete-btn">delete</div></div>
-      </div>
-
-      <div class="notes-card-content">
-        <div class="note-headline-card">Schlafen</div>
-        <div class="note-text-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus facilis error pariatur officia illum expedita necessitatibus recusandae veritatis dolorem laudantium?<div class="cards-delete-btn">delete</div></div>
-      </div> -->
-      </div>
+      <div class="notes-card-container" id="notesCardContainer"></div>
     </div>
     <script src="main.js"></script>
   </body>
