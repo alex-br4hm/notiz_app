@@ -1,18 +1,31 @@
-let noteHeadlineArr = ["test1", "test2", "test3", "test4", "test5", "test6"];
-let noteTextArr = [
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur",
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur",
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur",
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur",
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur",
-  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariaturLorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum rem maxime sed, recusandae eius aperiam molestias nisi quae iure pariatur",
-];
+let noteHeadlineArr = [];
+let noteTextArr = [];
 let trashHeadlineArr = [];
 let trashTextArr = [];
-let noteContainer = document.getElementById("notesCardContainer");
+
+getFromLocalStorage();
+
+function addNotice() {
+  let noteHeadlineInput = document.getElementById("noteHeadline").value;
+  let noteTextInput = document.getElementById("noteText").value;
+  console.log(noteHeadlineInput, noteTextInput);
+
+  if (noteHeadlineInput && noteTextInput) {
+    console.table(noteHeadlineArr);
+    noteHeadlineArr.push(noteHeadlineInput);
+    noteTextArr.push(noteTextInput);
+    renderNotices(noteHeadlineArr, noteTextArr);
+  } else {
+    openErrorWarning();
+  }
+
+  saveInLocalStorage();
+}
 
 function renderNotices(noteHeadlineArr, noteTextArr) {
+  let noteContainer = document.getElementById("notesCardContainer");
   noteContainer.innerHTML = "";
+
   for (let i = 0; i < noteHeadlineArr.length; i++) {
     noteContainer.innerHTML += `
     <div class="notes-card-content">
@@ -27,23 +40,18 @@ function renderNotices(noteHeadlineArr, noteTextArr) {
   }
 }
 
-function renderedNoticesBack() {
+function emptyInputs() {
   addNotice();
   document.getElementById("noteHeadline").value = "";
   document.getElementById("noteText").value = "";
 }
 
-function addNotice() {
-  let noteHeadlineInput = document.getElementById("noteHeadline").value;
-  let noteTextInput = document.getElementById("noteText").value;
+function openErrorWarning() {
+  document.getElementById("errorWarning").classList.remove("d-none");
+}
 
-  if (noteHeadlineInput && noteTextInput) {
-    noteHeadlineArr.push(noteHeadlineInput);
-    noteTextArr.push(noteTextInput);
-    renderNotices(noteHeadlineArr, noteTextArr);
-  } else {
-    alert("enter title and name");
-  }
+function closeErrorWarning() {
+  document.getElementById("errorWarning").classList.add("d-none");
 }
 
 function deleteNotice(x) {
@@ -56,6 +64,8 @@ function deleteNotice(x) {
   noteTextArr.splice(x, 1);
   renderNotices(noteHeadlineArr, noteTextArr);
   renderTrash(trashHeadlineArr, trashTextArr);
+
+  saveInLocalStorage();
 }
 
 function renderTrash(trashHeadlineArr, trashTextArr) {
@@ -78,22 +88,28 @@ function restoreFromTrash(y) {
   trashHeadlineArr.splice(y, 1);
   trashTextArr.splice(y, 1);
   renderTrash(trashHeadlineArr, trashTextArr);
+
+  saveInLocalStorage();
 }
 
 // open/close trash overlay
 function toggleTrashOverlay() {
   let trashOverlay = document.getElementById("trashOverlay");
   let emptyTrashBtn = document.getElementById("emptyTrashBtn");
-  let trashArrow = document.getElementById("trashArrow");
+  let trashToggleBtn = document.getElementById("trashToggleBtn");
+  let trashToggleCross = document.getElementById("trashToggleCross");
+  trashToggleCross.classList.toggle("d-none");
+  trashToggleBtn.classList.toggle("d-none");
   trashOverlay.classList.toggle("d-none");
   emptyTrashBtn.classList.toggle("d-none");
-  trashArrow.classList.toggle("trash-arrow-rotated");
 }
 
 // empty trash
 function emptyTrash() {
-  let trashOverlay = document.getElementById("trashOverlay");
-  trashOverlay.innerHTML = "";
+  trashHeadlineArr = [];
+  trashTextArr = [];
+  renderTrash(trashHeadlineArr, trashTextArr);
+  saveInLocalStorage();
 }
 
 function editNotice(z) {
@@ -104,8 +120,53 @@ function editNotice(z) {
   noteHeadlineArr.splice(z, 1);
   noteTextArr.splice(z, 1);
   document.documentElement.scrollTop = 0;
+  saveInLocalStorage();
   renderNotices(noteHeadlineArr, noteTextArr);
 }
 
-let submitInputBtn = get.getElementById("submitInputBtn");
-submitInputBtn.addEventListener("submit", renderedNoticesBack());
+function toggleTrashOverlayOnClick() {
+  let trashOverlay = document.getElementById("trashOverlay");
+  let trashToggleCross = document.getElementById("trashToggleCross");
+  let trashToggleBtn = document.getElementById("trashToggleBtn");
+  let emptyTrashBtn = document.getElementById("emptyTrashBtn");
+  trashOverlay.classList.add("d-none");
+  trashToggleCross.classList.add("d-none");
+  trashToggleBtn.classList.remove("d-none");
+  emptyTrashBtn.classList.add("d-none");
+}
+
+// LOCAL STORAGE HELPING FUNCTIONS //
+
+function saveInLocalStorage() {
+  let titleAsText = JSON.stringify(noteHeadlineArr);
+  localStorage.setItem("noticeTitle", titleAsText);
+  let textAsText = JSON.stringify(noteTextArr);
+  localStorage.setItem("noticeText", textAsText);
+
+  let trashTitleAsText = JSON.stringify(trashHeadlineArr);
+  localStorage.setItem("trashNoticeTitle", trashTitleAsText);
+
+  let trashTextAsText = JSON.stringify(trashTextArr);
+  localStorage.setItem("trashNoticeText", trashTextAsText);
+}
+
+function getFromLocalStorage() {
+  let noteHeadlineArrLocalStorage = localStorage.getItem("noticeTitle");
+  let noteTextArrLocalStorage = localStorage.getItem("noticeText");
+  let trashHeadlineArrLocalStorage = localStorage.getItem("trashNoticeTitle");
+  let trashTextArrLocalStorage = localStorage.getItem("trashNoticeText");
+
+  if (noteHeadlineArrLocalStorage && noteTextArrLocalStorage) {
+    noteHeadlineArr = JSON.parse(noteHeadlineArrLocalStorage);
+    noteTextArr = JSON.parse(noteTextArrLocalStorage);
+    renderNotices(noteHeadlineArr, noteTextArr);
+  }
+
+  if (trashHeadlineArrLocalStorage && trashTextArrLocalStorage) {
+    trashHeadlineArr = JSON.parse(trashHeadlineArrLocalStorage);
+    trashTextArr = JSON.parse(trashTextArrLocalStorage);
+    console.table("HIIIIIIIIIER");
+    console.table(trashHeadlineArr, trashTextArr);
+    renderTrash(trashHeadlineArr, trashTextArr);
+  }
+}
