@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"); */
 
 * {
   scroll-behavior: smooth;
@@ -21,7 +21,6 @@ body {
   top: 0;
   left: 0;
   background-color: rgb(10, 10, 10);
-  opacity: 0.8;
   width: 25%;
   min-height: 100vh;
   z-index: 2;
@@ -114,31 +113,15 @@ body {
     user-select: none;
   }
   .trashPurger {
-    margin-top: 5rem;
+    margin-top: 8rem;
+
     user-select: none;
   }
 
   h1 {
+    opacity: 0.9;
     padding: 1rem 1.25rem;
     margin: 1.5rem 0 1.5rem 0px;
-  }
-
-  .language-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 3rem 3rem 1.5rem 0;
-    font-size: 1.2rem;
-    display: flex;
-    gap: 0.4rem;
-    span {
-      opacity: 0.7;
-
-      &:hover {
-        opacity: 1;
-        cursor: pointer;
-      }
-    }
   }
 }
 
@@ -216,6 +199,32 @@ body {
   .edit-field {
     animation: getAttention 0.5s 1;
   }
+
+  .error-warning {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(216, 2, 2, 0.767);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    .close-warning {
+      border: 1px solid rgba(255, 255, 255, 0.486);
+      padding: 8px 12px;
+      transition: all 100ms ease-in;
+      &:hover {
+        cursor: pointer;
+        transform: scale(102%);
+        background-color: rgba(216, 2, 2, 0.897);
+      }
+    }
+  }
 }
 @keyframes getAttention {
   from {
@@ -253,10 +262,12 @@ body {
       font-size: 1.2rem;
       font-weight: bold;
       margin-bottom: 8px;
+      word-wrap: break-word;
     }
 
     .note-text-card {
       word-wrap: break-word;
+      white-space: pre-line;
     }
   }
 
@@ -300,11 +311,10 @@ body {
   }
 }
 
-.d-none {
-  display: none;
-}
-
 @media (max-width: 1240px) {
+  .trash-overlay {
+    width: 30%;
+  }
   .notes-card-container {
     .notes-card-content {
       max-width: 25%;
@@ -326,11 +336,16 @@ body {
 
   .trash-overlay {
     width: 40%;
-    opacity: 0.93;
   }
 }
 
 @media (max-width: 876px) {
+  .notes-input-container {
+    min-height: 25vh;
+    textarea {
+      height: 10vh;
+    }
+  }
   .header-container {
     h1 {
       font-size: 1.5rem;
@@ -346,9 +361,11 @@ body {
   }
 
   .notes-card-container {
+    gap: 3%;
     .notes-card-content {
       max-width: 40%;
       min-width: 40%;
+      margin-bottom: 3%;
     }
   }
 
@@ -357,7 +374,7 @@ body {
       margin: 1rem 0 1.5rem 3rem;
     }
     .trashPurger {
-      margin-top: 4rem;
+      margin-top: 7rem;
     }
   }
 }
@@ -403,4 +420,8 @@ body {
       min-width: 80%;
     }
   }
+}
+
+.d-none {
+  display: none !important;
 }
